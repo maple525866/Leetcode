@@ -1,4 +1,4 @@
-package com.code.hot100.hash;
+package com.code.hot100.sorting;
 
 import java.util.Arrays;
 import java.util.Scanner;
