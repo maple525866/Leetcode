@@ -1,4 +1,4 @@
-package com.code.hot100;
+package com.code.hot100.hash;
 
 import java.util.Arrays;
 import java.util.Scanner;
