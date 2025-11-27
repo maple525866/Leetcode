@@ -1,4 +1,4 @@
-package com.code.hot100.sorting;
+package com.code.realTest;
 
 /**
  * @author maple
@@ -8,6 +8,7 @@ package com.code.hot100.sorting;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -53,28 +54,26 @@ public class RpcBatchRequestTest {
         // rpcService.rpcGetDetailsById(1);
 
         // TODO 在此处实现批量调用
-        //RpcService rpcService = new RpcService();
-        List<Future<String>> future = new ArrayList<>();
-        List<String> res = new ArrayList<>();
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10,
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(30,
                 100,
                 30,
                 TimeUnit.SECONDS,
-                new LinkedBlockingDeque<>(1000));
+                new LinkedBlockingDeque<>(1000),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.CallerRunsPolicy());
+        List<Future<String>> future = new ArrayList<>();
+        List<String> res = new ArrayList<>();
 
-        for(int id : ids) {
+        for(int id : ids){
             Future<String> submit = threadPoolExecutor.submit(() -> {
                 return rpcService.rpcGetDetailsById(id);
             });
-
             future.add(submit);
         }
 
-        for(Future<String> submit : future) {
+        for(Future<String> submit : future){
             res.add(submit.get());
         }
-
-
         return res;
     }
 }
