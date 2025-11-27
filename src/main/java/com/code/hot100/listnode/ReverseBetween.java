@@ -1,4 +1,4 @@
-package com.code.hot100.listNode;
+package com.code.hot100.listnode;
 
 /**
  * @author maple

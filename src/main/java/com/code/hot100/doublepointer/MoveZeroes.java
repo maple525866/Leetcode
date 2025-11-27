@@ -1,4 +1,4 @@
-package com.code.hot100.doublePointer;
+package com.code.hot100.doublepointer;
 
 import java.util.Arrays;
 import java.util.Scanner;
