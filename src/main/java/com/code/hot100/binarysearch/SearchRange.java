@@ -69,6 +69,7 @@ public class SearchRange {
             if(nums[mid] < target){
                 left = mid + 1;
             }else {
+                // 即使target == nums[right] 那么也要再让right变动一次,目的是让right < left,这样left对应的位置就会是target的下标或者需要填入的下标
                 right = mid - 1;
             }
         }
