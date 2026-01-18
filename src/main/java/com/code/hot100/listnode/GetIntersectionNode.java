@@ -26,43 +26,66 @@ public class GetIntersectionNode {
         headB.next = node;
 
         GetIntersectionNode getIntersectionNode = new GetIntersectionNode();
+
+        System.out.println(getIntersectionNode.printListNode(headA));
+        System.out.println(getIntersectionNode.printListNode(headB));
+
         ListNode intersectionNode = getIntersectionNode.getIntersectionNode(headA, headB);
-        // 打印出相同的内存地址说明是有相交链表
         System.out.println(intersectionNode);
     }
 
-    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        Set<ListNode> set = new HashSet<>();
+    private String printListNode(ListNode head) {
+        if (head == null) return "";
+        StringBuilder sb = new StringBuilder();
+        ListNode cur = head;
+        while (cur != null) {
+            sb.append(cur.val);
+            if (cur.next != null) {
+                sb.append("->");
+            }
+            cur = cur.next;
+        }
+        return sb.toString();
+    }
 
+    private ListNode buildListNode(int[] nums) {
+        ListNode dummy = new ListNode();
+        ListNode pre = dummy;
+
+        for(int num : nums) {
+            pre.next = new ListNode(num);
+            pre = pre.next;
+        }
+
+        return dummy.next;
+    }
+
+    private ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        Set<ListNode> set = new HashSet<>();
         ListNode cur = headA;
-        while(cur != null){
+
+        while (cur != null) {
             set.add(cur);
             cur = cur.next;
         }
 
         cur = headB;
-        while(cur != null){
-            if(set.contains(cur)){
+
+        while (cur != null) {
+            if (set.contains(cur)) {
                 return cur;
             }
             cur = cur.next;
         }
-
         return null;
     }
 
-
-    private static class ListNode{
+    private static class ListNode {
         int val;
         ListNode next;
         ListNode(){}
-        ListNode(int val){
-            this.val = val;
-        }
-        ListNode(int val, ListNode next){
-            this.val = val;
-            this.next = next;
-        }
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 }
 
