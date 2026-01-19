@@ -10,50 +10,44 @@ package com.code.hot100.listnode;
  */
 public class ReverseList {
     public static void main(String[] args) {
-        int[] arr = {1,2,3,4,5};
+        int[] arr = {1,2,3,4,5,6,7,8,9};
         ReverseList reverseList = new ReverseList();
         ListNode head = reverseList.buildListNode(arr);
-        System.out.println(reverseList.toStringList(head));
+        System.out.println(reverseList.printList(head));
+
         head = reverseList.reverseList(head);
-        System.out.println(reverseList.toStringList(head));
+        System.out.println(reverseList.printList(head));
     }
-
-    public ListNode buildListNode(int[] nums){
-        ListNode dummy = new ListNode();
-        ListNode cur = dummy;
-
-        for(int i = 0; i < nums.length; i++){
-            cur.next = new ListNode(nums[i]);
-            cur = cur.next;
-        }
-
-        return dummy.next;
-    }
-
-    public String toStringList(ListNode head){
+    private String printList(ListNode head) {
         StringBuilder sb = new StringBuilder();
         ListNode cur = head;
-
-        while(cur != null){
+        while (cur != null) {
             sb.append(cur.val);
-            if(cur.next != null){
+            if (cur.next != null) {
                 sb.append("->");
             }
             cur = cur.next;
         }
-
         return sb.toString();
     }
 
-    public ListNode reverseList(ListNode head) {
+    private ListNode buildListNode(int[] nums) {
+        ListNode dummy = new ListNode();
+        ListNode pre = dummy;
+
+        for (int num : nums) {
+            pre.next = new ListNode(num);
+            pre = pre.next;
+        }
+        return dummy.next;
+    }
+
+    private ListNode reverseList(ListNode head) {
         if (head == null || head.next == null) return head;
 
-        ListNode dummy = new ListNode();
-        dummy.next = head;
-        ListNode pre = null;
         ListNode cur = head;
-
-        while(cur != null){
+        ListNode pre = null;
+        while (cur != null) {
             ListNode store = cur.next;
             cur.next = pre;
             pre = cur;
@@ -63,14 +57,14 @@ public class ReverseList {
         return pre;
     }
 
-    private static class ListNode {
+    private static class ListNode{
         int val;
         ListNode next;
         ListNode(){}
-        ListNode(int val) {
+        ListNode(int val){
             this.val = val;
         }
-        ListNode(int val, ListNode next) {
+        ListNode(int val, ListNode next){
             this.val = val;
             this.next = next;
         }
