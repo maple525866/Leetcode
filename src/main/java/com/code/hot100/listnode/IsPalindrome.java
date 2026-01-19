@@ -13,42 +13,59 @@ import java.util.LinkedList;
  */
 public class IsPalindrome {
     public static void main(String[] args) {
-        IsPalindrome isPalindrome = new IsPalindrome();
         int[] arr = {1,2,2,1};
-        ListNode head = isPalindrome.buildNodeList(arr);
+        IsPalindrome isPalindrome = new IsPalindrome();
+        ListNode head = isPalindrome.buildListNode(arr);
+
+        System.out.println(isPalindrome.print(head));
+
         System.out.println(isPalindrome.isPalindrome(head));
     }
-    public ListNode buildNodeList(int[] nums){
-        ListNode dummy = new ListNode();
-        ListNode cur = dummy;
 
-        for(int i = 0; i < nums.length; i++){
-            cur.next = new ListNode(nums[i]);
-            cur = cur.next;
+    private String print(ListNode head) {
+        StringBuilder sb = new StringBuilder();
+        ListNode curr = head;
+
+        while (curr != null) {
+            sb.append(curr.val);
+            if (curr.next != null) {
+                sb.append("->");
+            }
+            curr = curr.next;
+        }
+        return sb.toString();
+    }
+
+    private ListNode buildListNode(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
+        ListNode dummy = new ListNode();
+        ListNode pre = dummy;
+
+        for(int num : nums){
+            pre.next = new ListNode(num);
+            pre = pre.next;
         }
 
         return dummy.next;
     }
 
-    public boolean isPalindrome(ListNode head) {
-        if (head == null || head.next == null) return false;
+    private boolean isPalindrome(ListNode head) {
         Deque<ListNode> stack = new LinkedList<>();
-        ListNode dummy = new ListNode();
-        dummy.next = head;
-        ListNode cur = dummy;
+        ListNode cur = head;
 
-        while(cur.next != null) {
-            cur = cur.next;
+        while(cur != null){
             stack.push(cur);
+            cur = cur.next;
         }
 
         cur = head;
-        while(!stack.isEmpty() && cur != null) {
+
+        while(!stack.isEmpty() && cur != null){
             ListNode node = stack.pop();
-            if(node.val != cur.val) return false;
+            if(!(cur.val == node.val)) return false;
+
             cur = cur.next;
         }
-
         return true;
     }
 
