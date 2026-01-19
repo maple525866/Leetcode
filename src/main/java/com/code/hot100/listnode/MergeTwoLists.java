@@ -11,16 +11,20 @@ package com.code.hot100.listnode;
  */
 public class MergeTwoLists {
     public static void main(String[] args) {
-        MergeTwoLists mergeTwoLists = new MergeTwoLists();
         int[] nums1 = {1,2,4};
         int[] nums2 = {1,3,4};
-        ListNode list1 = mergeTwoLists.buildListNode(nums1);
-        ListNode list2 = mergeTwoLists.buildListNode(nums2);
-        ListNode listNode = mergeTwoLists.mergeTwoLists(list1, list2);
+        MergeTwoLists mergeTwoLists = new MergeTwoLists();
+        ListNode l1 = mergeTwoLists.buildListNode(nums1);
+        ListNode l2 = mergeTwoLists.buildListNode(nums2);
 
-        System.out.println(mergeTwoLists.toStringListNode(listNode));
+        System.out.println(mergeTwoLists.print(l1));
+        System.out.println(mergeTwoLists.print(l2));
+
+        ListNode head = mergeTwoLists.mergeTwoLists(l1, l2);
+        System.out.println(mergeTwoLists.print(head));
     }
-    public String toStringListNode(ListNode head){
+
+    private String print(ListNode head){
         StringBuilder sb = new StringBuilder();
         ListNode cur = head;
         while (cur != null) {
@@ -33,47 +37,42 @@ public class MergeTwoLists {
         return sb.toString();
     }
 
-    public ListNode buildListNode(int[] nums){
+    private ListNode buildListNode(int[] nums) {
         ListNode dummy = new ListNode();
         ListNode cur = dummy;
-
-        for(int i = 0; i<nums.length; i++){
-            cur.next = new ListNode(nums[i]);
+        for (int num : nums) {
+            cur.next = new ListNode(num);
             cur = cur.next;
         }
-
         return dummy.next;
     }
 
-    public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+    private ListNode mergeTwoLists(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode();
-        ListNode cur = dummy;
+        ListNode pre = dummy;
+        while (l1 != null && l2 != null) {
+            Integer num1 = l1 != null ? l1.val : null;
+            Integer num2 = l2 != null ? l2.val : null;
 
-        while (list1 != null && list2 != null) {
-            if (list1.val < list2.val) {
-                cur.next = list1;
-                list1 = list1.next;
-            }else {
-                cur.next = list2;
-                list2 = list2.next;
+            if(num1 > num2){
+                pre.next = l2;
+                l2 = l2.next;
+            }else{
+                pre.next = l1;
+                l1 = l1.next;
             }
-            cur = cur.next;
+            pre = pre.next;
         }
-
-        cur.next = list1 == null ? list2 : list1;
+        pre.next = l1 != null ? l1 : l2;
 
         return dummy.next;
     }
+
     private static class ListNode {
         int val;
         ListNode next;
         ListNode(){}
-        ListNode(int x) {
-            this.val = x;
-        }
-        ListNode(int val, ListNode next) {
-            this.val = val;
-            this.next = next;
-        }
+        ListNode(int val) { this.val = val; }
+        ListNode(int val, ListNode next) { this.val = val; this.next = next; }
     }
 }

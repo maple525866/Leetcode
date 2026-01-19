@@ -25,14 +25,17 @@ package com.code.hot100.listnode;
 public class AddTwoNumbers {
     public static void main(String[] args) {
         AddTwoNumbers addTwoNumbers = new AddTwoNumbers();
-        int[] nums1 = {2,4,3};
-        int[] nums2 = {5,6,4};
-        ListNode l1 = addTwoNumbers.buildNodeList(nums1);
-        ListNode l2 = addTwoNumbers.buildNodeList(nums2);
-        ListNode head = addTwoNumbers.addTwoNumbers(l1, l2);
-        System.out.println(addTwoNumbers.toStringListNode(head));
+        int[] nums1 = {9,9,9,9,9,9,9};
+        int[] nums2 = {9,9,9,9};
+
+        ListNode head1 = addTwoNumbers.buildListNode(nums1);
+        ListNode head2 = addTwoNumbers.buildListNode(nums2);
+
+        ListNode head = addTwoNumbers.addTwoNumbers(head1, head2);
+        System.out.println(addTwoNumbers.print(head));
     }
-    public String toStringListNode(ListNode head) {
+
+    private String print(ListNode head){
         StringBuilder sb = new StringBuilder();
         ListNode cur = head;
         while (cur != null) {
@@ -45,37 +48,34 @@ public class AddTwoNumbers {
         return sb.toString();
     }
 
-    public ListNode buildNodeList(int[] nums){
+    private ListNode buildListNode(int[] nums) {
         ListNode dummy = new ListNode();
         ListNode cur = dummy;
-
-        for(int i = 0; i < nums.length; i++){
-            cur.next = new ListNode(nums[i]);
+        for (int num : nums) {
+            cur.next = new ListNode(num);
             cur = cur.next;
         }
-
         return dummy.next;
     }
-    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
-        ListNode dummy = new ListNode();
-        ListNode cur = dummy;
+
+    private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         int store = 0;
+        ListNode dummy = new ListNode();
+        ListNode pre = dummy;
+
         while(l1 != null || l2 != null || store != 0){
-            ListNode node1 = new ListNode();
-            ListNode node2 = new ListNode();
-            if(l1 != null){node1.val = l1.val;}
-            if(l2 != null){node2.val = l2.val;}
+            int num1 = l1 == null ? 0 : l1.val;
+            int num2 = l2 == null ? 0 : l2.val;
 
-            int res = node1.val + node2.val + store;
-            store = res / 10;
-            res = res % 10;
-
-            cur.next = new ListNode(res);
-            cur = cur.next;
+            int sum = num1 + num2 + store;
+            pre.next = new ListNode(sum % 10);
+            store = sum / 10;
+            pre = pre.next;
 
             if(l1 != null) l1 = l1.next;
             if(l2 != null) l2 = l2.next;
         }
+
         return dummy.next;
     }
 
@@ -83,8 +83,8 @@ public class AddTwoNumbers {
         int val;
         ListNode next;
         ListNode(){}
-        ListNode(int x){
-            this.val = x;
+        ListNode(int val){
+            this.val = val;
         }
         ListNode(int val, ListNode next){
             this.val = val;
