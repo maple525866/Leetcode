@@ -1,6 +1,7 @@
 package com.code.realTest;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,10 +38,16 @@ public class FindDuplicates {
         List<Integer> res = new ArrayList<>();
 
         for (int i = 0; i < nums.length; i++) {
+
+            // 取当前值的绝对值（因为可能已被置负）
             int x = Math.abs(nums[i]);
             if(nums[x - 1] > 0){
+
+                // 将对应索引位置的数标记为负（表示已访问）
                 nums[x - 1] = -nums[x - 1];
             }else{
+
+                // 如果已经是负数，说明之前见过，是重复项
                 res.add(x);
             }
         }
