@@ -1,8 +1,7 @@
 package com.code.hot100.listnode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 /**
  * @author maple
@@ -42,22 +41,31 @@ public class SortList {
         }
         return dummy.next;
     }
-    public ListNode sortList(ListNode head) {
-        List<Integer> list = new ArrayList<>();
-        ListNode dummy = new ListNode();
-        ListNode cur = head;
-        while (cur != null) {
-            list.add(cur.val);
-            cur = cur.next;
-        }
-        Integer[] arr = list.toArray(new Integer[list.size()]);
-        Arrays.sort(arr);
 
-        cur = dummy;
-        for (int i = 0; i < arr.length; i++) {
-            cur.next = new ListNode(arr[i]);
-            cur = cur.next;
+    /**
+     * 这里的思路是使用优先队列，非常容易理解
+     * @param head
+     * @return ListNode
+     */
+    public ListNode sortList(ListNode head) {
+        Queue<ListNode> queue = new PriorityQueue<>((o1, o2) -> o1.val - o2.val);
+
+        ListNode dummy = new ListNode();
+        ListNode prev = dummy;
+        ListNode cur = head;
+
+        while(cur != null){
+            queue.add(cur);
+            ListNode tmp = cur.next;
+            cur.next = null;
+            cur = tmp;
         }
+
+        while(!queue.isEmpty()){
+            prev.next = queue.poll();
+            prev = prev.next;
+        }
+
         return dummy.next;
     }
 
