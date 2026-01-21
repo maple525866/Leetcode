@@ -2,90 +2,103 @@ package com.code.hot100.listnode;
 
 /**
  * @author maple
- * @Description
+ * @Description 92.反转链表Ⅱ
+ * //反转部分链表
+ * //1->2->3->4->5
+ * //开始 2 结束 4
+ * //
+ * //反转之后：
+ * //1->4->3->2->5
+ *
+ * 输入：head = [1,2,3,4,5], left = 2, right = 4
+ * 输出：[1,4,3,2,5]
  * @createTime:2025-11-26 15:33
  */
-//反转部分链表
-//1->2->3->4->5
-//开始 2 结束 4
-//
-//反转之后：
-//1->4->3->2->5
-
-//92.反转链表Ⅱ
 public class ReverseBetween {
     public static void main(String[] args) {
-        int[] nums = {1,2,3,4,5,6,7,8,9};
         ReverseBetween reverseBetween = new ReverseBetween();
-        ListNode head = reverseBetween.createList(nums);
+        int[] arr = {1,2,3,4,5};
 
-        System.out.println(listToString(head));
+        ListNode head = reverseBetween.buildListNode(arr);
+        System.out.println(reverseBetween.print(head));
 
-        head = reverseBetween.reverseBetween(head,2,6);
-
-        System.out.println(listToString(head));
+        head = reverseBetween.reverseBetween(head,2,4);
+        System.out.println(reverseBetween.print(head));
     }
 
-    public ListNode createList(int[] arr){
-        if(arr == null || arr.length == 0) return null;
-
-        ListNode dummy = new ListNode();
-        ListNode cur = dummy;
-
-        for(int i=0; i < arr.length; i++){
-            ListNode node = new ListNode(arr[i]);
-            cur.next = node;
-            cur = cur.next;
-        }
-
-        return dummy.next;
-    }
-
-    // 辅助方法：将链表转为字符串，便于打印
-    public static String listToString(ListNode head) {
+    private String print(ListNode head) {
         StringBuilder sb = new StringBuilder();
-        ListNode cur = head;
-        while (cur != null) {
-            sb.append(cur.val);
-            if (cur.next != null) {
-                sb.append(" -> ");
+        ListNode curr = head;
+
+        while (curr != null) {
+            sb.append(curr.val);
+            if (curr.next != null) {
+                sb.append("->");
             }
-            cur = cur.next;
+            curr = curr.next;
         }
         return sb.toString();
     }
 
-    public ListNode reverseBetween(ListNode head, int left, int right) {
+    private ListNode buildListNode(int[] nums) {
+        if (nums == null || nums.length == 0) return null;
         ListNode dummy = new ListNode();
-        dummy.next = head;
+        ListNode pre = dummy;
 
-        ListNode prev = dummy;
-        // 1. 确定反转范围前一个点
-        for(int i = 1; i < left; i++){
-            prev = prev.next;
+        for(int num : nums){
+            pre.next = new ListNode(num);
+            pre = pre.next;
         }
-
-        ListNode start = prev.next;
-        ListNode cur = prev.next;
-        ListNode pre = null;
-
-        for(int i = 0; i <= right-left; i++){
-            ListNode store = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = store;
-        }
-
-        prev.next = pre;
-        start.next = cur;
 
         return dummy.next;
     }
 
-    private class ListNode{
+    /**
+     * 这里采用了25. K 个一组翻转链表的方法
+     * @param head
+     * @param left
+     * @param right
+     * @return ListNode
+     */
+
+    private ListNode reverseBetween(ListNode head, int left, int right) {
+        ListNode dummy = new ListNode();
+        dummy.next = head;
+        ListNode cur = dummy;
+
+        for(int i = 0; i < left; i++){
+            cur = cur.next;
+        }
+
+        ListNode tail = dummy;
+
+        for(int i = 0; i < right; i++){
+            tail = tail.next;
+        }
+
+        ListNode prev = tail.next;
+
+        while(prev != tail){
+            ListNode tmp = cur.next;
+            cur.next = prev;
+
+            prev = cur;
+            cur = tmp;
+        }
+
+        ListNode node = dummy;
+        for(int i = 1; i < left; i++){
+            node = node.next;
+        }
+
+        node.next = prev;
+
+        return dummy.next;
+    }
+
+    private static class ListNode{
         int val;
         ListNode next;
-
         ListNode(){}
         ListNode(int val){
             this.val = val;

@@ -74,7 +74,7 @@ public class ReverseKGroup {
             tail = nodes[1];
 
             prev.next = cur;
-            tail.next = nex;
+            //tail.next = nex;
 
             prev = tail;
             cur = tail.next;
