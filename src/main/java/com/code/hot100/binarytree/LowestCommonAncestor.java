@@ -1,7 +1,9 @@
 package com.code.hot100.binarytree;
 
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author maple
@@ -18,35 +20,59 @@ import java.util.LinkedList;
 public class LowestCommonAncestor {
     public static void main(String[] args) {
         LowestCommonAncestor lowestCommonAncestor = new LowestCommonAncestor();
-        Integer[] arr = new Integer[]{3,5,1,6,2,0,8,null,null,7,4};
-        TreeNode root = lowestCommonAncestor.buildTree(arr);
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
 
+        TreeNode node = lowestCommonAncestor.lowestCommonAncestor(root, root.left, root.right);
+        System.out.println(lowestCommonAncestor.printTree(node));
+    }
+    private String printTree(TreeNode root) {
+        if (root == null) return null;
+
+        List<Integer> res = new ArrayList<>();
+        Deque<TreeNode> queue = new LinkedList<>();
+
+        if(root != null) queue.add(root);
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = queue.poll();
+                if (node.left != null) queue.add(node.left);
+                if (node.right != null) queue.add(node.right);
+                res.add(node.val);
+            }
+        }
+        return res.toString();
     }
 
-    private TreeNode buildTree(Integer[] nums){
+
+    private TreeNode buildTree(Integer[] arr){
         Deque<TreeNode> queue = new LinkedList<>();
-        TreeNode root = new TreeNode(nums[0]);
-        queue.offer(root);
+        TreeNode root = new TreeNode(arr[0]);
+        if(root != null) queue.addLast(root);
 
         int i = 1;
-        while(!queue.isEmpty() || i < nums.length){
-            TreeNode node = queue.poll();
+        while(!queue.isEmpty() || i < arr.length){
+            TreeNode node = queue.removeFirst();
 
-            if(i < nums.length){
-                if(nums[i] != null){
-                    node.left = new TreeNode(nums[i]);
-                    queue.offer(node.left);
+            if(i < arr.length){
+                if(arr[i] != null){
+                    node.left = new TreeNode(arr[i]);
+                    queue.addLast(node.left);
                 }
                 i++;
             }
 
-            if(i < nums.length){
-                if(nums[i] != null){
-                    node.right = new TreeNode(nums[i]);
-                    queue.offer(node.right);
+            if(i < arr.length){
+                if(arr[i] != null){
+                    node.right = new TreeNode(arr[i]);
+                    queue.addLast(node.right);
                 }
                 i++;
             }
+
         }
         return root;
     }
@@ -57,8 +83,9 @@ public class LowestCommonAncestor {
     }
 
     private TreeNode helper(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) return null;
-        if (root.val == p.val || root.val == q.val) return root;
+        if(root == null) return null;
+
+        if(root == p || root == q) return root;
 
         TreeNode left = helper(root.left, p, q);
         TreeNode right = helper(root.right, p, q);
@@ -74,13 +101,15 @@ public class LowestCommonAncestor {
         }
     }
 
-    private static class TreeNode {
+    private static class TreeNode{
         int val;
         TreeNode left;
         TreeNode right;
         TreeNode(){}
-        TreeNode(int val) { this.val = val; }
-        TreeNode(int val, TreeNode left, TreeNode right) {
+        TreeNode(int val){
+            this.val = val;
+        }
+        TreeNode(int val, TreeNode left, TreeNode right){
             this.val = val;
             this.left = left;
             this.right = right;
