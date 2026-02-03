@@ -5,7 +5,7 @@ package com.code.realTest;
  * @Description 银行转账系统 - 并发安全的转账实现
  * @createTime:2026-02-03 16:58
  */
-public class Test {
+public class BankTest {
     public static void main(String[] args) {
         // 创建测试账户
         Account accountA = new Account(1, 1000);
