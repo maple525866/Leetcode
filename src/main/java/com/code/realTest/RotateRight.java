@@ -21,7 +21,7 @@ public class RotateRight {
         ListNode head = rotateRight.buildListNode(arr);
         System.out.println(rotateRight.print(head));
 
-        head = rotateRight.rotateRight(head,2);
+        head = rotateRight.rotateRight(head,1);
 
         System.out.println(rotateRight.print(head));
     }
@@ -53,46 +53,38 @@ public class RotateRight {
     }
 
     private ListNode rotateRight(ListNode head,int k){
-        if (head == null) return null;
+        if (head == null || head.next == null) {
+            return head;
+        }
 
-        int count = 0;
-        ListNode cur = head;
-        while (cur != null){
-            cur = cur.next;
+        // 1. 计算长度，并找到尾节点
+        int count = 1;
+        ListNode tail = head;
+        while (tail.next != null) {
+            tail = tail.next;
             count++;
         }
 
+        // 2. 处理 k
         k = k % count;
-        cur = head;
-        int[] arr = new int[count];
-        for(int i = 0; i < count; i++){
-            arr[i] = cur.val;
-            cur = cur.next;
+        if (k == 0) {
+            return head;
         }
 
-        int[] res = new int[count];
-        for(int i = 0; i < count; i++){
-            res[i] = arr[i];
+        // 3. 找到新的尾节点：第 (count - k) 个节点
+        ListNode newTail = head;
+        for (int i = 0; i < count - k - 1; i++) {
+            newTail = newTail.next;
         }
 
-        for(int i = 0,j = count - k; j < count; i++,j++){
-            res[i] = arr[j];
-        }
+        // 4. 新头是 newTail.next
+        ListNode newHead = newTail.next;
 
-        for(int i = k,j = 0; i < count; i++,j++){
-            res[i] = arr[j];
-        }
+        // 5. 断开并连接
+        newTail.next = null;
+        tail.next = head;
 
-        cur = head;
-
-        int index = 0;
-        while(cur != null){
-            cur.val = res[index];
-            index++;
-            cur = cur.next;
-        }
-
-        return head;
+        return newHead;
     }
 
     private static class ListNode{
