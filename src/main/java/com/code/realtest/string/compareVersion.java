@@ -1,4 +1,4 @@
-package com.code.realTest.string;
+package com.code.realtest.string;
 
 /**
  * @author maple

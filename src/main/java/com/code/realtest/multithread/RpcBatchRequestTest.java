@@ -1,4 +1,4 @@
-package com.code.realTest;
+package com.code.realtest.multithread;
 
 /**
  * @author maple

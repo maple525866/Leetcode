@@ -1,4 +1,4 @@
-package com.code.realTest.listnode;
+package com.code.realtest.listnode;
 
 import java.util.HashMap;
 import java.util.Map;

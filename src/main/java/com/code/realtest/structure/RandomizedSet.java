@@ -1,4 +1,4 @@
-package com.code.realTest;
+package com.code.realtest.structure;
 
 import java.util.HashSet;
 import java.util.Random;

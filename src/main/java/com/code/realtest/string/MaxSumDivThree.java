@@ -1,4 +1,4 @@
-package com.code.realTest;
+package com.code.realtest.string;
 
 import java.util.ArrayList;
 import java.util.Collections;
