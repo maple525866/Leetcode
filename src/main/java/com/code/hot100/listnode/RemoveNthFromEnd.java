@@ -49,25 +49,24 @@ public class RemoveNthFromEnd {
         return dummy.next;
     }
     public ListNode removeNthFromEnd(ListNode head, int n) {
-        ListNode dummy = new ListNode();
-        dummy.next = head;
-        ListNode cur = head;
-        int total = 0;
+        // 快指针先走n步就是从头到了对称第n个节点的节点
+        ListNode dummy = new ListNode(0, head);
+        ListNode fast = dummy;
+        ListNode slow = dummy;
 
-        // 1.先来数总共有多少个节点
-        while(cur != null){
-            total++;
-            cur = cur.next;
+        // 快指针先走 n+1 步（多走1步是为了让 slow 停在待删节点的前驱）
+        for (int i = 0; i <= n; i++) {
+            fast = fast.next;
         }
 
-        cur = dummy;
-        // 2.找到要删除节点的前一个节点
-        for(int i = 0; i < total - n; i++){
-            cur = cur.next;
+        // fast 和 slow 同步走到末尾
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
         }
-        // 3.更改前一个节点的next到temp即可
-        ListNode temp = cur.next.next;
-        cur.next = temp;
+
+        // 此时 slow 恰好停在待删节点的前驱
+        slow.next = slow.next.next;
 
         return dummy.next;
     }
